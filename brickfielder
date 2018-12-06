@@ -4,6 +4,24 @@ use warnings;
 use strict;
 use v5.10;
 
+our $VERSION = '0.2';
+
+use Getopt::Long;
+my $shuffle;
+my $help;
+my $version;
+GetOptions (
+    shuffle => \$shuffle,
+    help => \$help,
+    version => \$version,
+);
+
+show_help_and_exit() if $help;
+show_version_and_exit() if $version;
+
+show_version();
+say "Run with --help to see more options.\n";
+
 my %drills = (
     aerobic => [
         "jumping jacks",
@@ -35,7 +53,14 @@ unlink $tempfile;
 foreach my $rep (1..3) {
     for my $drill_type ( qw( aerobic lower upper core ) ) {
         my @possible_drills = @{ $drills{ $drill_type } };
-        my $drill = splice @possible_drills, int(rand($#possible_drills + 1)), 1;
+        my $drill;
+        if ( $shuffle ) {
+            $drill =
+                splice @possible_drills, int(rand($#possible_drills + 1)), 1;
+        }
+        else {
+            $drill = shift @possible_drills;
+        }
         push @drills, $drill;
         $drills{$drill_type} = \@possible_drills;
     }
@@ -49,8 +74,10 @@ my $SECONDS_LABEL_CUTOFF = 9;
 my $LONG_DRILL = 30;
 my $SHORT_DRILL = 15;
 
+my $drill_counter = 0;
 for my $drill ( @drills ) {
-    speak("Prepare for $drill.");
+    $drill_counter++;
+    speak("Prepare for drill $drill_counter: $drill.");
     countdown( $LONG_BREAK );
     speak("Start now.");
     if ( $drill eq 'side plank' ) {
@@ -97,4 +124,29 @@ sub countdown {
     }
 }
 
+sub show_help_and_exit {
+    show_version();
+    say q{};
+    say <<END;
+Usage:
+$0 [options]
+
+Options:
+--help     (You're reading it)
+--version  Show version information and exit
+--shuffle  Shuffle the drills before presenting them. It will still present
+           three sets of four drills in the same style-order (aerobic, then
+           lower-body, then upper-body, and finally core).
+END
+    exit;
+}
+
+sub show_version_and_exit {
+    show_version();
+    exit;
+}
+
+sub show_version {
+    say "This is Brickfielder, version $VERSION, by Jason McIntosh.";
+}
 
