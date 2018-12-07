@@ -29,18 +29,18 @@ my %drills = (
         "high knees",
     ],
     lower => [
+        "wall sit",
         "squats",
         "lunges",
-        "wall sit",
     ],
     upper => [
         "push ups",
-        "rotational push ups",
         "tricep dips",
+        "rotational push ups",
     ],
     core => [
-        "plank",
         "crunches",
+        "plank",
         "side plank",
     ],
 );
