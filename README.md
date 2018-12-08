@@ -10,7 +10,7 @@ Its features include:
 
 * **A minimal, speech-centered UI.** Brickfielder guides you through voice alone (with a simple text transcription in its terminal window).
 
-* **Shuffling the drills a bit beforehand,**, optionally, and for variety's sake. While you still get three rounds of aerobic, lower-body, upper-body, and core drills in that order, Brickfielder will randomize the order of the three drills within each category.
+* **Shuffling the drills a bit beforehand,** optionally, and for variety's sake. While you still get three rounds of aerobic, lower-body, upper-body, and core drills in that order, Brickfielder will randomize the order of the three drills within each category.
 
     In other words, it will always start with an aerobic drill, but that drill might be step-ups, jumping jacks, or high knees. It will then move on to a lower-body drill. You will always receive all twelve drills exactly once per workout.
     
