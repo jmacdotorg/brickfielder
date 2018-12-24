@@ -10,10 +10,16 @@ use Getopt::Long;
 my $shuffle;
 my $help;
 my $version;
+my $testing;
+my $no_chair;
+my $speaker = 'say';
 GetOptions (
     shuffle => \$shuffle,
     help => \$help,
     version => \$version,
+    testing => \$testing,
+    'no-chair' => \$no_chair,
+    'speaker=s' => \$speaker,
 );
 
 show_help_and_exit() if $help;
@@ -76,6 +82,9 @@ my $SHORT_DRILL = 15;
 
 my $drill_counter = 0;
 for my $drill ( @drills ) {
+
+    $drill = replace_chair_drill( $drill ) if $no_chair;
+
     $drill_counter++;
     speak("Prepare for $drill: drill $drill_counter.");
     countdown( $LONG_BREAK );
@@ -91,18 +100,23 @@ for my $drill ( @drills ) {
         countdown( $LONG_DRILL );
     }
     speak( "Rest.");
-    sleep 1;
+    sleep 1 unless $testing
 }
 speak ( "Workout complete.");
 
 sub speak {
+    if ( $testing ) {
+        say @_;
+        return;
+    }
+
     my $pid = fork;
     unless ( $pid ) {
         unless ( -e $tempfile ) {
             open my $fh, '>', $tempfile;
             print $fh $pid;
             say @_;
-            system ( 'say', @_ );
+            system ( $speaker, @_ );
             unlink $tempfile;
         }
         exit;
@@ -112,7 +126,7 @@ sub speak {
 sub countdown {
     my ($seconds) = @_;
     for my $current_second (reverse(0..$seconds)) {
-        sleep 1;
+        sleep 1 unless $testing;
         if ( grep {$_ == $current_second} @SPOKEN_SECONDS ) {
             if ( $current_second >= $SECONDS_LABEL_CUTOFF ) {
                 speak( "$current_second seconds left.");
@@ -121,7 +135,26 @@ sub countdown {
                 speak( $current_second );
             }
         }
+        elsif ( $testing && $current_second ) {
+            say q{.};
+        }
     }
+}
+
+sub replace_chair_drill {
+    my ($drill) = @_;
+    my @pool;
+    if ( $drill eq 'step ups') {
+        @pool = ('jumping jacks', 'high knees');
+    }
+    elsif ( $drill eq 'tricep dips') {
+        @pool = ('push ups', 'rotational push ups');
+    }
+    else {
+        return $drill;
+    }
+
+    return $pool[int rand $#pool + 1];
 }
 
 sub show_help_and_exit {
@@ -132,11 +165,19 @@ Usage:
 $0 [options]
 
 Options:
---help     (You're reading it)
---version  Show version information and exit
+--help     (You're reading it.)
+--version  Show version information and exit.
 --shuffle  Shuffle the drills before presenting them. It will still present
            three sets of four drills in the same style-order (aerobic, then
            lower-body, then upper-body, and finally core).
+--no-chair No-chair mode. Drills requiring a chair will replace themselves
+           with a random drill of the same style.
+--speaker  Specify the text-to-speech program to use. Defaults to `say`.
+
+Examples:
+$0
+$0 --shuffle
+$0 --no-chair --speaker=espeak
 END
     exit;
 }

@@ -1,6 +1,6 @@
 # Brickfielder
 
-An opinionated, speech-centric seven-minute workout timer for macOS.
+An opinionated, speech-centric seven-minute workout timer.
 
 ## Description
 
@@ -16,17 +16,19 @@ Its features include:
     
 * **Breaking the side-planks drill into two sub-drills,** separated by a very short pause to allow for switching sides.
 
+* **A no-chair mode** that substitutes other drills when you find yourself in a space (e.g. a hotel room) with no suitably stable chair to exercise with.
+
 ## Installation
 
-Brickfielder should run as-is with no dependencies on any reasonably up-to-date Mac. Place it wherever you like.
+Brickfielder should run as-is with no dependencies on any reasonably up-to-date Mac or Linux system. Place it wherever you like.
+
+You will need a command-line text-to-speech program installed on your machine that simply speaks whatever argument-string it receives. The default is `say`, which comes with macOS and is [also available for Linux](http://manpages.ubuntu.com/manpages/trusty/man1/say.1.html).
 
 ## Usage
 
-Turn up your Mac's speakers before running Brickfielder.
+Turn up your speakers before running Brickfielder.
 
 Run with `--help` to see a list of all the program's command-line options.
-
-You can run Brickfielder from the command line or from the Finder. (If the latter, it will open its own Terminal window, and then start running immediately.)
 
 You can pause or unpause the timer as you would any other terminal-based program. Hit Control-Z in its terminal window to pause Brickfielder, and resume it by running the `fg` shell command in that same window. No, that's not ideal, but that's how it is for now.
 
@@ -46,9 +48,7 @@ This is that. I fully expect that Brickfielder will fit me perfectly and slightl
 
 ## Notes and bugs
 
-The program offers no configuration options or runtime controls at this time.
-
-Brickfielder runs only on Macs because it depends on the existence of the macOS `say` text-to-speech command-line program.
+Pausing and resuming the working should be a lot easier than it is.
 
 The project's name comes from [Brickfielder](https://en.wikipedia.org/wiki/Brickfielder), a wind pattern found in southern Australia. I like to name my projects after regional winds, alphabetically; when I started this project I'd still only made it down to the B's.
 
