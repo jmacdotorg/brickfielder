@@ -2,6 +2,8 @@
 
 An opinionated, speech-centric seven-minute workout timer.
 
+**PLEASE NOTE:** This software is now superceded by [Sweat](https://github.com/jmacdotorg/sweat), its much more full-featured successor. I do not plan on developing Brickfielder per se any further, and continue to share its source here for historical reasons.
+
 ## Description
 
 On launch, Brickfielder will immediately begin pacing you through the twelve drills of [the seven-minute workout (7MW)](http://fogknife.com/2015-01-11-seven-minute-workout.html).
